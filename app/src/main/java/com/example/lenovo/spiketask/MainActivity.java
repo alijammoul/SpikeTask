@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lenovo.spiketask.Models.Article;
 import com.example.lenovo.spiketask.Models.Book;
@@ -28,6 +30,7 @@ import com.example.lenovo.spiketask.Models.MovieGenre;
 import com.example.lenovo.spiketask.Models.Music;
 import com.example.lenovo.spiketask.Models.Series;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +38,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth fba;
-
+    private FirebaseUser user;
 private Button bm,bb,bc,ba,bs;
+TextView v;
 
 
 
@@ -48,6 +52,9 @@ private Button bm,bb,bc,ba,bs;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fba = FirebaseAuth.getInstance();
+
+        user=fba.getCurrentUser();
+        Toast.makeText(this,"Welcome " +user.getEmail(),Toast.LENGTH_SHORT).show();
 
         bm=(Button)findViewById(R.id.Moviebtn);
         bb=(Button)findViewById(R.id.Bookbtn);
@@ -69,7 +76,8 @@ bm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
-                startActivityForResult(m,2);
+               m.putExtra("Model","Book");
+               startActivity(m);
             }
         });
 
@@ -79,21 +87,24 @@ bm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
-                startActivityForResult(m,3);
+                m.putExtra("Model","Music");
+                startActivity(m);
             }
         });
         ba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
-                startActivityForResult(m,4);
+                m.putExtra("Model","Article");
+                startActivity(m);
             }
         });
         bs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
-                startActivityForResult(m,5);
+                m.putExtra("Model","Series");
+                startActivity(m);
             }
         });
 
@@ -109,6 +120,8 @@ bm.setOnClickListener(new View.OnClickListener() {
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        v=(TextView)findViewById(R.id.textView) ;
+        //v.setText(user.getEmail());
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -136,7 +149,8 @@ bm.setOnClickListener(new View.OnClickListener() {
         int id = item.getItemId();
 
         if (id == R.id.nav_bookmark) {
-
+            Intent m = new Intent(MainActivity.this,CollectionActivity.class);
+            startActivity(m);
         } else if (id == R.id.nav_later) {
 
         }  else if (id == R.id.nav_logout) {

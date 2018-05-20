@@ -6,29 +6,42 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/film"
         android:label="@string/app_name"
-        android:logo="@drawable/ic_search_black_24dp"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:logo="@drawable/film"
+        android:roundIcon="@drawable/film"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Fullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SignupActivity"
             android:theme="@style/Fullscreen" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:label="HomePage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity"
+            android:label="Browse"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity
+            android:name=".CollectionActivity"
+            android:label="@string/title_activity_collection"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SplashActivity"
+            android:theme="@style/Fullscreen"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

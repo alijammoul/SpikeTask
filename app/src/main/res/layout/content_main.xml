@@ -13,14 +13,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="5"
     >
 
     <Button
+        android:layout_marginTop="10dp"
         android:text="Browse Movies"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:id="@+id/Moviebtn"
+        android:background="@drawable/options"
         android:layout_marginBottom="10dp"
+        android:layout_weight="1"
         />
     <Button
         android:text="Browse Books"
@@ -28,6 +32,8 @@
         android:layout_height="80dp"
         android:id="@+id/Bookbtn"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/options"
+        android:layout_weight="1"
         />
     <Button
         android:text="Browse Music"
@@ -35,6 +41,8 @@
         android:layout_height="80dp"
         android:id="@+id/Musicbtn"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/options"
+        android:layout_weight="1"
         />
     <Button
         android:text="Browse Articles"
@@ -42,6 +50,8 @@
         android:layout_height="80dp"
         android:id="@+id/Articlebtn"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/options"
+        android:layout_weight="1"
         />
     <Button
         android:text="Browse Series"
@@ -49,6 +59,16 @@
         android:layout_height="80dp"
         android:id="@+id/Seriesbtn"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/options"
+        android:layout_weight="1"
+        />
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:src="@drawable/g"
+
+
         />
 
 </LinearLayout>
