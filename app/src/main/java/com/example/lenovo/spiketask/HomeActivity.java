@@ -76,6 +76,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
     private FirebaseUser user;
     private LinearLayout l;
     private ProgressDialog d;
+    final int drags = ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT;
 
 
 
@@ -102,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
         check();//check what model to retrieve
 //-----------------------------------------------------------------------------------------------------------------------------------
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new SwipeHelper(0, ItemTouchHelper.LEFT, this,type);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new SwipeHelper(0, drags, this,type);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
@@ -121,7 +122,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
 
     public void check(){
-    Intent intent = getIntent();
+
     type =getIntent().getStringExtra("Model").toString();
 
     switch(type){
@@ -343,8 +344,18 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
 // showing snack
+        String savetype="";
+
+
+        if(direction ==4){
+            savetype="saved";
+        }else
+        if(direction ==8){
+            savetype="viewedlater";
+        }
+
         final Snackbar snackbar = Snackbar
-                .make(l,   type+" Added!", Snackbar.LENGTH_LONG);
+                .make(l,   type+" "+savetype, Snackbar.LENGTH_LONG);
         snackbar.setAction("Dismiss", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -365,7 +376,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
 
                 fs.collection("Users").document(user.getEmail())
-                        .collection(type).add(map)
+                        .collection(savetype).document(type).collection(type).add(map)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -390,7 +401,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
                 map1.put("artist",musicList.get(position).getArtist());
                 map1.put("genre",musicList.get(position).getGenre().toString());
                 fs.collection("Users").document(user.getEmail())
-                        .collection(type).add(map1)
+                        .collection(savetype).document(type).collection(type).add(map1)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -413,7 +424,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
                 map2.put("genre",bookList.get(position).getGenre().toString());
 
                 fs.collection("Users").document(user.getEmail())
-                        .collection(type).add(map2)
+                        .collection(savetype).document(type).collection(type).add(map2)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -435,7 +446,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
                 map3.put("genre",seriesList.get(position).getGenre().toString());
                 map3.put("actor",seriesList.get(position).getFavActor());
                 fs.collection("Users").document(user.getEmail())
-                        .collection(type).add(map3)
+                        .collection(savetype).document(type).collection(type).add(map3)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -460,7 +471,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
                 map4.put("date",articleList.get(position).getPublishedDate());
                 map4.put("source",articleList.get(position).getSource());
                 fs.collection("Users").document(user.getEmail())
-                        .collection(type).add(map4)
+                        .collection(savetype).document(type).collection(type).add(map4)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {

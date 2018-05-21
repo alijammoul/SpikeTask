@@ -1,5 +1,6 @@
 package com.example.lenovo.spiketask;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,16 +45,14 @@ public class SeriesFragment extends Fragment {
     private List<Article> articleList = new ArrayList<>();
     private List<Music> musicList = new ArrayList<>();
 
-
+    private String mode;
     RecyclerView rv;
     MAdapter mAdapter;
     private FirebaseFirestore fs;
     View vv;
     FirebaseAuth fba;
     FirebaseUser user;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,6 +73,10 @@ public class SeriesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         fba=FirebaseAuth.getInstance();
         user=fba.getCurrentUser();
         fs = FirebaseFirestore.getInstance();
@@ -83,7 +86,7 @@ public class SeriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        FillList();
+
         vv = inflater.inflate(R.layout.fragment_series, container, false);
 
         // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
@@ -95,7 +98,7 @@ public class SeriesFragment extends Fragment {
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
 
-
+        FillList();
 
 
         rv.addOnItemTouchListener(
@@ -103,7 +106,7 @@ public class SeriesFragment extends Fragment {
                     @Override public void onItemClick(View view,final int position) {
 
 
-                        fs.collection("Users").document(user.getEmail()).collection("Series").document(seriesList.get(position).getId())//list.get(position).getId()
+                        fs.collection("Users").document(user.getEmail()).collection(mode).document("Series").collection("Series").document(seriesList.get(position).getId())//list.get(position).getId()
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -137,38 +140,24 @@ public class SeriesFragment extends Fragment {
         return vv;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
 
     private void FillList() {
+
+
         if(seriesList.size()>0)
            seriesList.clear();
-/*
-        fs.collection("Users").document(user.getEmail()).collection("Movie").
-                addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        if(e!= null){
-                            Log.d("Error", "Error:"+ e.getMessage());
-                        }
+        String unsafemode=getArguments().getString("mode");
+        switch(unsafemode){
+            case "My Saved Collection":
+                mode ="saved";
+                break;
+            case "View Later": mode="viewedlater";break;
 
-                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                                Movie m= doc.getDocument().toObject(Movie.class);
-                               // Log.d("blablax1",m.getName().toString());
+        }
 
-                                list.add(m);
-                                mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });*/
-
-
-        fs.collection("Users").document(user.getEmail()).collection("Series").get()
+        fs.collection("Users").document(user.getEmail()).collection(mode).document("Series").collection("Series").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -192,6 +181,7 @@ public class SeriesFragment extends Fragment {
 
             }
         });
+
 
     }
     public interface OnFragmentInteractionListener {

@@ -53,7 +53,7 @@ public class MusicFragment extends Fragment {
     private List<Article> articleList = new ArrayList<>();
     private List<Music> musicList = new ArrayList<>();
 
-
+    private String mode;
     RecyclerView rv;
     MAdapter mAdapter;
     private FirebaseFirestore fs;
@@ -83,6 +83,14 @@ public class MusicFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //switch (getArguments().getString("mode")){
+           // case "My Saved Collection":
+                mode ="save";
+                //break;
+           // case "View Later": mode="later";break;
+        //}
+
         fba=FirebaseAuth.getInstance();
         user=fba.getCurrentUser();
         fs = FirebaseFirestore.getInstance();
@@ -111,7 +119,7 @@ public class MusicFragment extends Fragment {
                     @Override public void onItemClick(View view,final int position) {
 
 
-                        fs.collection("Users").document(user.getEmail()).collection("Music").document(musicList.get(position).getId())//list.get(position).getId()
+                        fs.collection("Users").document(user.getEmail()).collection(mode).document("Music").collection("Music").document(musicList.get(position).getId())//list.get(position).getId()
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -145,38 +153,21 @@ public class MusicFragment extends Fragment {
         return vv;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
 
     private void FillList() {
         if(musicList.size()>0)
            musicList.clear();
-/*
-        fs.collection("Users").document(user.getEmail()).collection("Movie").
-                addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        if(e!= null){
-                            Log.d("Error", "Error:"+ e.getMessage());
-                        }
 
-                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                                Movie m= doc.getDocument().toObject(Movie.class);
-                               // Log.d("blablax1",m.getName().toString());
+        String unsafemode=getArguments().getString("mode");
+        switch(unsafemode){
+            case "My Saved Collection":
+                mode ="saved";
+                break;
+            case "View Later": mode="viewedlater";break;
 
-                                list.add(m);
-                                mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });*/
-
-
-        fs.collection("Users").document(user.getEmail()).collection("Music").get()
+        }
+        fs.collection("Users").document(user.getEmail()).collection(mode).document("Music").collection("Music").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

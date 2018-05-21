@@ -150,9 +150,12 @@ bm.setOnClickListener(new View.OnClickListener() {
 
         if (id == R.id.nav_bookmark) {
             Intent m = new Intent(MainActivity.this,CollectionActivity.class);
+            m.putExtra("Mode","My Saved Collection");
             startActivity(m);
         } else if (id == R.id.nav_later) {
-
+            Intent m = new Intent(MainActivity.this,CollectionActivity.class);
+            m.putExtra("Mode","View Later");
+            startActivity(m);
         }  else if (id == R.id.nav_logout) {
             fba.signOut();
             finish();

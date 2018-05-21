@@ -49,14 +49,18 @@ public class MovieFragment extends Fragment {
     View vv;
     FirebaseAuth fba;
     FirebaseUser user;
+    private String mode;
 
     public MovieFragment() {
-        // Required empty public constructor
+
+
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         fba=FirebaseAuth.getInstance();
         user=fba.getCurrentUser();
@@ -69,7 +73,7 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        FillList();
+
         vv = inflater.inflate(R.layout.fragment_m, container, false);
 
         // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
@@ -80,7 +84,7 @@ public class MovieFragment extends Fragment {
          mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,0,getActivity().getApplicationContext());
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
-
+        FillList();
 
 
 
@@ -90,7 +94,7 @@ public class MovieFragment extends Fragment {
                     @Override public void onItemClick(View view,final int position) {
 
 
-                        fs.collection("Users").document(user.getEmail()).collection("Movie").document(list.get(position).getId())//list.get(position).getId()
+                        fs.collection("Users").document(user.getEmail()).collection(mode).document("Movie").collection("Movie").document(list.get(position).getId())
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -110,7 +114,7 @@ public class MovieFragment extends Fragment {
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
-                        // later
+                        // do nothing
 
                     }
                 })
@@ -122,26 +126,20 @@ public class MovieFragment extends Fragment {
     private void FillList() {
         if(list.size()>0)
            list.clear();
-/*
-        fs.collection("Users").document(user.getEmail()).collection("Movie").
-                addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        if(e!= null){
-                            Log.d("Error", "Error:"+ e.getMessage());
-                        }
+Log.d("Frag mode",getArguments().getString("mode"));
+String unsafemode=getArguments().getString("mode");
+switch(unsafemode){
+   case "My Saved Collection":
+            mode ="saved";
+        break;
+        case "View Later": mode="viewedlater";break;
 
-                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                                Movie m= doc.getDocument().toObject(Movie.class);
-                               // Log.d("blablax1",m.getName().toString());
+}
 
-                                list.add(m);
-                                mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });*/
 
-        fs.collection("Users").document(user.getEmail()).collection("Movie").get()
+        Log.d("lasttt Frag mode",mode);
+
+        fs.collection("Users").document(user.getEmail()).collection(mode).document("Movie").collection("Movie").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -149,8 +147,7 @@ public class MovieFragment extends Fragment {
                    Movie m =q.toObject(Movie.class);
                         m.setId(q.getId());
 
-                   //Movie m = new Movie(q.getString("name"),q.getString("favActor"), MovieGenre.Romance);//MovieGenre.map(q.getString("Genre"))
-                   list.add(m);
+                    list.add(m);
                    Log.d("Data",m.getName()+"       test here    " + m.getId());
 
                }

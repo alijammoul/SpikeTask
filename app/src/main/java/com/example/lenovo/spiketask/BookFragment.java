@@ -54,7 +54,7 @@ public class BookFragment extends Fragment {
     FirebaseUser user;
     private String mParam1;
     private String mParam2;
-
+    private String mode;
     private OnFragmentInteractionListener mListener;
 
     public BookFragment() {
@@ -74,6 +74,9 @@ public class BookFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         fba=FirebaseAuth.getInstance();
         user=fba.getCurrentUser();
         fs = FirebaseFirestore.getInstance();
@@ -83,7 +86,7 @@ public class BookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragmentF
-        FillList();
+
         vv = inflater.inflate(R.layout.fragment_book, container, false);
 
         // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
@@ -95,14 +98,14 @@ public class BookFragment extends Fragment {
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
 
-
+        FillList();
 
         rv.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity().getApplicationContext(), rv ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view,final int position) {
 
 
-                        fs.collection("Users").document(user.getEmail()).collection("Book").document(bookList.get(position).getId())//list.get(position).getId()
+                        fs.collection("Users").document(user.getEmail()).collection(mode).document("Book").collection("Book").document(bookList.get(position).getId())//list.get(position).getId()
                                 .delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -134,37 +137,20 @@ public class BookFragment extends Fragment {
         return vv;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     private void FillList() {
         if(bookList.size()>0)
             bookList.clear();
-/*
-        fs.collection("Users").document(user.getEmail()).collection("Movie").
-                addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        if(e!= null){
-                            Log.d("Error", "Error:"+ e.getMessage());
-                        }
 
-                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                                Movie m= doc.getDocument().toObject(Movie.class);
-                               // Log.d("blablax1",m.getName().toString());
+        String unsafemode=getArguments().getString("mode");
+        switch(unsafemode){
+            case "My Saved Collection":
+                mode ="saved";
+                break;
+            case "View Later": mode="viewedlater";break;
 
-                                list.add(m);
-                                mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });*/
-
-
-        fs.collection("Users").document(user.getEmail()).collection("Book").get()
+        }
+        fs.collection("Users").document(user.getEmail()).collection(mode).document("Book").collection("Book").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

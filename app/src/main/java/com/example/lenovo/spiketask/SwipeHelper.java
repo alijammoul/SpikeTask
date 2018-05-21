@@ -10,9 +10,12 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
     private String type;
 
-    public SwipeHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener,String type) {
-        super(dragDirs, swipeDirs);
+
+
+    public SwipeHelper(int dragDirs, int left , RecyclerItemTouchHelperListener listener,String type) {
+        super(dragDirs, left);
         this.listener = listener;
+
         this.type=type;
     }
 
@@ -139,7 +142,11 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+
         listener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+
+
     }
 
     @Override

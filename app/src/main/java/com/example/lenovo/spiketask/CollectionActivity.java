@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,22 +36,25 @@ public class CollectionActivity extends AppCompatActivity {
     private FirebaseAuth fba;
     private FirebaseUser user;
     private TabLayout tabLayout;
+    public String mode;
+    private Bundle b;
     private ProgressDialog d;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private int[] tabIcons = {
-            R.drawable.ic_hd_black_24dp,
+            R.drawable.ic_movie_black_24dp,
             R.drawable.ic_book_black_24dp,
-            R.drawable.ic_music_note_black_24dp,
+            R.drawable.ic_live_tv_black_24dp,
             R.drawable.ic_insert_drive_file_black_24dp,
-            R.drawable.ic_tv_black_24dp
-
+            R.drawable.ic_music_note_black_24dp
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
         d=new ProgressDialog(getApplicationContext(),R.style.AppCompatAlertDialogStyle);
+       mode=getIntent().getStringExtra("Mode");
+        Log.d("MODE activity ",mode);
        // d.show();
 
         fba = FirebaseAuth.getInstance();
@@ -58,6 +62,8 @@ public class CollectionActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -72,12 +78,26 @@ public class CollectionActivity extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MovieFragment(), "Movies");
-        adapter.addFragment(new ArticleFragment(), "Articles");
-        adapter.addFragment(new SeriesFragment(), "Series");
-        adapter.addFragment(new BookFragment(), "Books");
-        adapter.addFragment(new MusicFragment(), "Music");
+        b=new Bundle();
+        b.putString("mode",mode);
+        MovieFragment m = new MovieFragment();
+        Log.d("Last mode inn activity",b.getString("mode"));
+        m.setArguments(b);
+        ArticleFragment a = new ArticleFragment();
+        a.setArguments(b);
+        BookFragment bk = new BookFragment();
+        bk.setArguments(b);
+        SeriesFragment s = new SeriesFragment();
+        s.setArguments(b);
+        MusicFragment mc = new MusicFragment();
+        mc.setArguments(b);
+        adapter.addFragment(m, "Movies");
+        adapter.addFragment(a, "Articles");
+        adapter.addFragment(s, "Series");
+        adapter.addFragment(bk, "Books");
+        adapter.addFragment(mc, "Music");
         viewPager.setAdapter(adapter);
+        toolbar.setTitle(mode);
     }
     @Override
     public boolean onSupportNavigateUp() {

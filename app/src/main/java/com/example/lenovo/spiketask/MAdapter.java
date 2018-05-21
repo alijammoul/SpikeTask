@@ -167,9 +167,9 @@ return null;
                 case 0:
                     ViewHolder0 viewHolder0 = (ViewHolder0)holder;
                     Movie m = List.get(position);
-                    viewHolder0.Name.setText(m.getName());
-                    viewHolder0.genre.setText(m.getGenre().toString());
-                    viewHolder0.Actor.setText(m.getFavActor());
+                    viewHolder0.Name.setText("Movie Name :"+m.getName());
+                    viewHolder0.genre.setText("Movie Genre :"+m.getGenre().toString());
+                    viewHolder0.Actor.setText("Favorite Actor :"+m.getFavActor());
                     viewHolder0.i.setBackgroundResource(R.drawable.movie);
                    Glide.with(context)
                            .load(m.getName())
@@ -182,11 +182,11 @@ return null;
                     ViewHolder1 viewHolder1 = (ViewHolder1)holder;
                     Article a = aList.get(position);
 
-                    viewHolder1.Name.setText(a.getName());
-                    viewHolder1.genre.setText(a.getGenre().toString());//m.getGenre().toString()
-                    viewHolder1.Author.setText(a.getAuthor());
-                    viewHolder1.Source.setText(a.getSource());
-                    viewHolder1.date.setText(a.getPublishedDate());
+                    viewHolder1.Name.setText("Article Name :"+a.getName());
+                    viewHolder1.genre.setText("Article Genre :"+a.getGenre().toString());//m.getGenre().toString()
+                    viewHolder1.Author.setText("Article Author :"+a.getAuthor());
+                    viewHolder1.Source.setText("Article Source :("+a.getSource()+")");
+                    viewHolder1.date.setText("Date Published :"+a.getPublishedDate());
                     viewHolder1.i.setBackgroundResource(R.drawable.article);
                     Glide.with(context)
                             .load(a.getName())
@@ -195,9 +195,9 @@ return null;
                 break;
                 case 2: ViewHolder2 viewHolder2=(ViewHolder2)holder;
                 Book b = booklist.get(position);
-                viewHolder2.Name.setText(b.getName());
-                viewHolder2.Author.setText(b.getAuthor());
-                viewHolder2.genre.setText(b.getGenre().toString());
+                viewHolder2.Name.setText("Book Name :"+b.getName());
+                viewHolder2.Author.setText("Book Author :"+b.getAuthor());
+                viewHolder2.genre.setText("Book Genre :"+b.getGenre().toString());
                     viewHolder2.i.setBackgroundResource(R.drawable.book);
                     Glide.with(context)
                             .load(b.getName())
@@ -205,10 +205,10 @@ return null;
                 break;
                 case 3:ViewHolder3 viewHolder3=(ViewHolder3)holder;
                     Music c = musiclist.get(position);
-                    viewHolder3.Name.setText(c.getName());
-                    viewHolder3.Artist.setText(c.getArtist());
-                    viewHolder3.genre.setText(c.getGenre().toString());
-                    viewHolder3.Album.setText(c.getAlbum());
+                    viewHolder3.Name.setText("Music Name :"+c.getName());
+                    viewHolder3.Artist.setText("Music Artist :"+c.getArtist());
+                    viewHolder3.genre.setText("Music Genre :"+c.getGenre().toString());
+                    viewHolder3.Album.setText("Music Album :"+c.getAlbum());
                     viewHolder3.i.setBackgroundResource(R.drawable.music);
                     Glide.with(context)
                             .load(c.getName())
@@ -219,9 +219,9 @@ return null;
 
                     ViewHolder4 viewHolder4=(ViewHolder4)holder;
                     Series s = serieslist.get(position);
-                    viewHolder4.Name.setText(s.getName());
-                    viewHolder4.Actor.setText(s.getFavActor());
-                    viewHolder4.genre.setText(s.getGenre().toString());
+                    viewHolder4.Name.setText("Series Name :"+s.getName());
+                    viewHolder4.Actor.setText("Favorite Actor :"+s.getFavActor());
+                    viewHolder4.genre.setText("Series Genre :"+s.getGenre().toString());
                     viewHolder4.i.setBackgroundResource(R.drawable.series);
                     Glide.with(context)
                             .load(s.getName())
