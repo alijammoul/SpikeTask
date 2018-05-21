@@ -22,6 +22,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -55,7 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements SwipeHelper.RecyclerItemTouchHelperListener{
     private List<Movie> movieList = new ArrayList<>();
     private List<Book> bookList = new ArrayList<>();
     private List<Series> seriesList = new ArrayList<>();
@@ -69,6 +70,9 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseFirestore fs;
     private FirebaseAuth fba;
     private FirebaseUser user;
+    private LinearLayout l;
+    private ProgressDialog d;
+
 
 
     @Override
@@ -89,160 +93,18 @@ public class HomeActivity extends AppCompatActivity {
         user=fba.getCurrentUser();
         fs=FirebaseFirestore.getInstance();
 
-
+        l = findViewById(R.id.linear);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         check();//check what model to retrieve
-      ;
-
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getApplicationContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view,final  int position) {
-                        // save
-
-                        switch (type){
-                            case "Movie": Map<String,Object> map = new HashMap<>();
-                                map.put("name",movieList.get(position).getName());
-                                map.put("favActor",movieList.get(position).getName());
-                                map.put("genre",movieList.get(position).getGenre().toString());
-
-
-                                fs.collection("Users").document(user.getEmail())
-                                        .collection(type).add(map)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                 movieList.get(position).setId(documentReference.getId());//new line
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document has been added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document could not be added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                                break;
-                            case "Music":Map<String,Object> map1 = new HashMap<>();
-                                map1.put("name",musicList.get(position).getName());
-                                map1.put("album",musicList.get(position).getAlbum());
-                                map1.put("artist",musicList.get(position).getArtist());
-                                map1.put("genre",musicList.get(position).getGenre().toString());
-                                fs.collection("Users").document(user.getEmail())
-                                        .collection(type).add(map1)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                musicList.get(position).setId(documentReference.getId());//new line
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document has been added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document could not be added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });break;
-                            case "Book":Map<String,Object> map2 = new HashMap<>();
-                                map2.put("name",bookList.get(position).getName());
-                                map2.put("author",bookList.get(position).getAuthor());
-                                map2.put("genre",bookList.get(position).getGenre().toString());
-
-                                fs.collection("Users").document(user.getEmail())
-                                        .collection(type).add(map2)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                bookList.get(position).setId(documentReference.getId());//new line
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document has been added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document could not be added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });break;
-                            case "Series":Map<String,Object> map3 = new HashMap<>();
-                                map3.put("name",seriesList.get(position).getName());
-                                map3.put("genre",seriesList.get(position).getGenre().toString());
-                                map3.put("actor",seriesList.get(position).getFavActor());
-                                fs.collection("Users").document(user.getEmail())
-                                        .collection(type).add(map3)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                seriesList.get(position).setId(documentReference.getId());//new line
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document has been added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document could not be added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });break;
-                            case "Article":
-                                Map<String,Object> map4 = new HashMap<>();
-                                map4.put("name",articleList.get(position).getName());
-                                map4.put("genre",articleList.get(position).getGenre().toString());
-                                map4.put("author",articleList.get(position).getAuthor());
-                                map4.put("date",articleList.get(position).getPublishedDate());
-                                map4.put("source",articleList.get(position).getSource());
-                                fs.collection("Users").document(user.getEmail())
-                                        .collection(type).add(map4)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                articleList.get(position).setId(documentReference.getId());//new line
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document has been added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Event document could not be added",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });break;
-
-                        }
+//-----------------------------------------------------------------------------------------------------------------------------------
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new SwipeHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
 
-                    }
+        //-----------------------------------------------------------------------------------------------------------------------------
 
-                    @Override public void onLongItemClick(View view, int position) {
-                        // later
-
-                    }
-                })
-        );
 
     }
     public void initm(List a,List b,List c, List d,List e,int n){
@@ -275,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void prepareMovieData() {
         initm(movieList,bookList,seriesList,articleList,musicList,0);
-       final ProgressDialog d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
 
         d.setMessage("working...");
         d.show();
@@ -316,7 +178,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void prepareArticleData() {
         initm(movieList,bookList,seriesList,articleList,musicList,1);
-        final ProgressDialog d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+         d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         d.setMessage("working...");
         d.show();
         JsonArrayRequest j = new JsonArrayRequest(articleurl, new Response.Listener<JSONArray>() {
@@ -356,7 +218,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void prepareBookData(){
         initm(movieList,bookList,seriesList,articleList,musicList,2);
-        final ProgressDialog d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         d.setMessage("working...");
         d.show();
         JsonArrayRequest j = new JsonArrayRequest(bookurl, new Response.Listener<JSONArray>() {
@@ -399,7 +261,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void prepareSeriesData(){
         initm(movieList,bookList,seriesList,articleList,musicList,4);
-        final ProgressDialog d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+       d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         d.setMessage("working...");
         d.show();
         JsonArrayRequest j = new JsonArrayRequest(seriesurl, new Response.Listener<JSONArray>() {
@@ -436,7 +298,7 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void prepareMusicData(){
         initm(movieList,bookList,seriesList,articleList,musicList,3);
-        final ProgressDialog d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+       d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
         d.setMessage("working...");
         d.show();
         JsonArrayRequest j = new JsonArrayRequest(musicurl, new Response.Listener<JSONArray>() {
@@ -474,4 +336,148 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
+// showing snack
+        final Snackbar snackbar = Snackbar
+                .make(l,   type+" Added!", Snackbar.LENGTH_LONG);
+        snackbar.setAction("Dismiss", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                snackbar.dismiss();
+
+            }
+        });
+        snackbar.setActionTextColor(Color.rgb(130,177,255));
+
+        d = new ProgressDialog(this,R.style.AppCompatAlertDialogStyle);
+        d.setMessage("Adding your item :)");
+        d.show();
+        switch (type){
+            case "Movie": Map<String,Object> map = new HashMap<>();
+                map.put("name",movieList.get(position).getName());
+                map.put("favActor",movieList.get(position).getName());
+                map.put("genre",movieList.get(position).getGenre().toString());
+
+
+                fs.collection("Users").document(user.getEmail())
+                        .collection(type).add(map)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                movieList.get(position).setId(documentReference.getId());//new line
+                                movieList.remove(position); mAdapter.notifyDataSetChanged();
+                                d.dismiss();
+                              snackbar.show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+
+                            }
+                        });
+
+                break;
+            case "Music":Map<String,Object> map1 = new HashMap<>();
+                map1.put("name",musicList.get(position).getName());
+                map1.put("album",musicList.get(position).getAlbum());
+                map1.put("artist",musicList.get(position).getArtist());
+                map1.put("genre",musicList.get(position).getGenre().toString());
+                fs.collection("Users").document(user.getEmail())
+                        .collection(type).add(map1)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                musicList.get(position).setId(documentReference.getId());//new line
+                                musicList.remove(position); mAdapter.notifyDataSetChanged();
+                                d.dismiss();
+                               snackbar.show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+
+                            }
+                        });break;
+            case "Book":Map<String,Object> map2 = new HashMap<>();
+                map2.put("name",bookList.get(position).getName());
+                map2.put("author",bookList.get(position).getAuthor());
+                map2.put("genre",bookList.get(position).getGenre().toString());
+
+                fs.collection("Users").document(user.getEmail())
+                        .collection(type).add(map2)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                bookList.get(position).setId(documentReference.getId());//new line
+                                bookList.remove(position); mAdapter.notifyDataSetChanged();
+                                d.dismiss();
+                                snackbar.show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+
+                            }
+                        });break;
+            case "Series":Map<String,Object> map3 = new HashMap<>();
+                map3.put("name",seriesList.get(position).getName());
+                map3.put("genre",seriesList.get(position).getGenre().toString());
+                map3.put("actor",seriesList.get(position).getFavActor());
+                fs.collection("Users").document(user.getEmail())
+                        .collection(type).add(map3)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                seriesList.get(position).setId(documentReference.getId());//new line
+                                seriesList.remove(position); mAdapter.notifyDataSetChanged();
+                                d.dismiss();
+                                snackbar.show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+
+                            }
+                        });break;
+            case "Article":
+                Map<String,Object> map4 = new HashMap<>();
+                map4.put("name",articleList.get(position).getName());
+                map4.put("genre",articleList.get(position).getGenre().toString());
+                map4.put("author",articleList.get(position).getAuthor());
+                map4.put("date",articleList.get(position).getPublishedDate());
+                map4.put("source",articleList.get(position).getSource());
+                fs.collection("Users").document(user.getEmail())
+                        .collection(type).add(map4)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                articleList.get(position).setId(documentReference.getId());//new line
+                                articleList.remove(position); mAdapter.notifyDataSetChanged();
+                                d.dismiss();
+                               snackbar.show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+
+                            }
+                        });break;
+
+        }
+
+
+
+
+    }
 }

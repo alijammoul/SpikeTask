@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "890157119921",
+    "firebase_url": "https://spike-7ab00.firebaseio.com",
+    "project_id": "spike-7ab00",
+    "storage_bucket": "spike-7ab00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890157119921:android:b62918cbd549c5ea",
+        "android_client_info": {
+          "package_name": "com.example.lenovo.spiketask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890157119921-dp9cnnedb49s1hso5ua6ggp2g600vmg4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhW4cyVM6N6XXp3KI4QoHdshpgg2WajRY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
