@@ -23,10 +23,9 @@ public class SignupActivity extends AppCompatActivity {
     private EditText temail,tpassword,tpassword2;
     private String email,password,password2;
     private Button signup;
-    private TextView login;
+
     private ProgressBar d;
     private FirebaseAuth fba;
-    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

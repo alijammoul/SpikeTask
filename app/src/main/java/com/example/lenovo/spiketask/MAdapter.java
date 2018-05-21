@@ -31,7 +31,7 @@ public class MAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Series> serieslist;
     private Context context;
 
-    private int n;
+    private int n;//used to detect what type of object is passed to adapter for viewholder matching
 
     public class ViewHolder0 extends RecyclerView.ViewHolder {//movie
         public TextView Name, Actor, genre;
@@ -126,12 +126,11 @@ public class MAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     @Override
     public int getItemViewType(int position) {
-        // Just as an example, return 0 or 2 depending on position
-        // Note that unlike in ListView adapters, types don't have to be contiguous
 
         return n;
     }
 //movieList,bookList,seriesList,articleList,musicList,0
+    //only use needed parameters
     public MAdapter(List<Movie> moviesList, List<Book> b, List<Series> s, List<Article> a, List<Music> m ,int n,Context c) {
         this.List = moviesList;
         booklist=b;

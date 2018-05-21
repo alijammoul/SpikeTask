@@ -33,17 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MusicFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MusicFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MusicFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     ArrayList<Movie> list=new ArrayList<>();
@@ -60,11 +52,9 @@ public class MusicFragment extends Fragment {
     View vv;
     FirebaseAuth fba;
     FirebaseUser user;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+
+
 
     public MusicFragment() {
         // Required empty public constructor
@@ -84,12 +74,7 @@ public class MusicFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //switch (getArguments().getString("mode")){
-           // case "My Saved Collection":
-                mode ="save";
-                //break;
-           // case "View Later": mode="later";break;
-        //}
+
 
         fba=FirebaseAuth.getInstance();
         user=fba.getCurrentUser();
@@ -99,11 +84,10 @@ public class MusicFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) { FillList();
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vv = inflater.inflate(R.layout.fragment_music, container, false);
 
-        // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
         rv = (RecyclerView) vv.findViewById(R.id.recycler_view);
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
@@ -112,7 +96,7 @@ public class MusicFragment extends Fragment {
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
 
-
+        FillList();
 
         rv.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity().getApplicationContext(), rv ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -146,10 +130,6 @@ public class MusicFragment extends Fragment {
         );
 
 
-
-
-
-
         return vv;
     }
 
@@ -175,9 +155,7 @@ public class MusicFragment extends Fragment {
                             Music m =q.toObject(Music.class);
                             m.setId(q.getId());
 
-                            //Movie m = new Movie(q.getString("name"),q.getString("favActor"), MovieGenre.Romance);//MovieGenre.map(q.getString("Genre"))
                             musicList.add(m);
-                           // Log.d("Data",m.getName()+"       test here    " + m.getGenre()+"   "+m.getFavActor());
 
                         }
                         mAdapter.notifyDataSetChanged();
@@ -193,8 +171,5 @@ public class MusicFragment extends Fragment {
         });
 
     }
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

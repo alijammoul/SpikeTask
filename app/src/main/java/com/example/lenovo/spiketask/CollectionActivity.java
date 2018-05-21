@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +33,6 @@ public class CollectionActivity extends AppCompatActivity {
 
 
 
-    private FirebaseFirestore fs;
     private FirebaseAuth fba;
     private FirebaseUser user;
     private TabLayout tabLayout;
@@ -55,14 +55,12 @@ public class CollectionActivity extends AppCompatActivity {
         d=new ProgressDialog(getApplicationContext(),R.style.AppCompatAlertDialogStyle);
        mode=getIntent().getStringExtra("Mode");
         Log.d("MODE activity ",mode);
-       // d.show();
 
         fba = FirebaseAuth.getInstance();
         user = fba.getCurrentUser();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,6 +72,8 @@ public class CollectionActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         d.dismiss();
+        Toast.makeText(getApplicationContext(),"Tap on Items to delete",Toast.LENGTH_LONG).show();
+
 
     }
     private void setupViewPager(ViewPager viewPager) {

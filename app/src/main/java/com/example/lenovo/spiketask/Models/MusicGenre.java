@@ -17,6 +17,7 @@ public enum MusicGenre {
             case "Blues": return MusicGenre.Blues;
             case "Rock": return MusicGenre.Rock;
             case "RandB": return MusicGenre.RandB;
+            case "Metal": return MusicGenre.Metal;
         }
         return null;
     }

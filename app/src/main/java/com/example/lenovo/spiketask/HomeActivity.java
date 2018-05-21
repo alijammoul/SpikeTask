@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
     private RecyclerView recyclerView;
     private MAdapter mAdapter;
     private String type;
+    //get data from these urls as json objects
     private final String movieurl="https://api.myjson.com/bins/9z2uq",
             bookurl="https://api.myjson.com/bins/170un6",
             musicurl="https://api.myjson.com/bins/1dowma",
@@ -102,12 +103,9 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         check();//check what model to retrieve
-//-----------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------------------
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new SwipeHelper(0, drags, this,type);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-
-
-
         //-----------------------------------------------------------------------------------------------------------------------------
 
 
@@ -122,9 +120,8 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
 
     public void check(){
-
     type =getIntent().getStringExtra("Model").toString();
-
+    //detect what type of objects to get
     switch(type){
         case "Movie":
             prepareMovieData();
@@ -138,6 +135,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
         case "Series":prepareSeriesData();
             break;
     }
+        Toast.makeText(getApplicationContext(),"Swipe Right To View Later & Left To Save",Toast.LENGTH_LONG).show();
 }
 
     private void prepareMovieData() {
@@ -178,8 +176,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
         });
         RequestQueue q = Volley.newRequestQueue(this);
         q.add(j);
-       // Movie movie = new Movie("Mad Max: Fury Road", "Action & Adventure", MovieGenre.Action);
-        //mAdapter.notifyDataSetChanged();
+
     }
     private void prepareArticleData() {
         initm(movieList,bookList,seriesList,articleList,musicList,1);
@@ -343,10 +340,10 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
-// showing snack
+
         String savetype="";
 
-
+        // condition to check for swipe direction
         if(direction ==4){
             savetype="saved";
         }else

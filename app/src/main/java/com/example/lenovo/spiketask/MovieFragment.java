@@ -75,8 +75,6 @@ public class MovieFragment extends Fragment {
 
 
         vv = inflater.inflate(R.layout.fragment_m, container, false);
-
-        // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
         rv = (RecyclerView) vv.findViewById(R.id.recycler_view);
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 

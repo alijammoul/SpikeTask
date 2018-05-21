@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth fba;
     private FirebaseUser user;
-private Button bm,bb,bc,ba,bs;
+private Button btnmovie,btnbook,btnmusic,btnarticle,btnseries;
 TextView v;
 
 
@@ -56,13 +56,13 @@ TextView v;
         user=fba.getCurrentUser();
         Toast.makeText(this,"Welcome " +user.getEmail(),Toast.LENGTH_SHORT).show();
 
-        bm=(Button)findViewById(R.id.Moviebtn);
-        bb=(Button)findViewById(R.id.Bookbtn);
-        bc=(Button)findViewById(R.id.Musicbtn);
-        ba=(Button)findViewById(R.id.Articlebtn);
-        bs=(Button)findViewById(R.id.Seriesbtn);
+        btnmovie=(Button)findViewById(R.id.Moviebtn);
+        btnbook=(Button)findViewById(R.id.Bookbtn);
+        btnmusic=(Button)findViewById(R.id.Musicbtn);
+        btnarticle=(Button)findViewById(R.id.Articlebtn);
+        btnseries=(Button)findViewById(R.id.Seriesbtn);
 
-bm.setOnClickListener(new View.OnClickListener() {
+        btnmovie.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         Intent m = new Intent(MainActivity.this,HomeActivity.class);
@@ -72,7 +72,7 @@ bm.setOnClickListener(new View.OnClickListener() {
     }
 });
 
-        bb.setOnClickListener(new View.OnClickListener() {
+        btnbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
@@ -83,7 +83,7 @@ bm.setOnClickListener(new View.OnClickListener() {
 
 
 
-        bc.setOnClickListener(new View.OnClickListener() {
+        btnmusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
@@ -91,7 +91,7 @@ bm.setOnClickListener(new View.OnClickListener() {
                 startActivity(m);
             }
         });
-        ba.setOnClickListener(new View.OnClickListener() {
+        btnarticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);
@@ -99,7 +99,7 @@ bm.setOnClickListener(new View.OnClickListener() {
                 startActivity(m);
             }
         });
-        bs.setOnClickListener(new View.OnClickListener() {
+        btnseries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent m = new Intent(MainActivity.this,HomeActivity.class);

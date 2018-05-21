@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         Window window = getWindow();
-        //window.setFormat(PixelFormat.RGBA_8888);
+
     }
 
 
@@ -30,8 +30,6 @@ public class SplashActivity extends AppCompatActivity {
 // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
-// Remember that you should never show the action bar if the
-// status bar is hidden, so hide that too if necessary.
         Animation a = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.motion);
         a.setFillAfter(true);
         v.startAnimation(a);

@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
 
                 android:inputType="textPassword"
-                android:hint="Enter a password"
+                android:hint="Enter a password (6+ characters)"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
@@ -93,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="Login!"
                 android:textStyle="bold"
+                android:textSize="20sp"
                 android:onClick="Login"
 
                 />

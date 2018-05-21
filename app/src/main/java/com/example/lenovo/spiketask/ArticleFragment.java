@@ -34,13 +34,11 @@ import java.util.List;
 
 
 public class ArticleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    ArrayList<Movie> list=new ArrayList<>();
-
+    private ArrayList<Movie> list=new ArrayList<>();
     private List<Book> bookList = new ArrayList<>();
     private List<Series> seriesList = new ArrayList<>();
     private List<Article> articleList = new ArrayList<>();
@@ -53,10 +51,8 @@ public class ArticleFragment extends Fragment {
     View vv;
     FirebaseAuth fba;
     FirebaseUser user;
-    private String mParam1;
-    private String mParam2;
-    private String mode;
-    private OnFragmentInteractionListener mListener;
+    private String mode;//Fetch data helper string
+
 
     public ArticleFragment() {
         // Required empty public constructor
@@ -76,7 +72,6 @@ public class ArticleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         fba=FirebaseAuth.getInstance();
         user=fba.getCurrentUser();
         fs = FirebaseFirestore.getInstance();
@@ -86,10 +81,7 @@ public class ArticleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         vv = inflater.inflate(R.layout.fragment_article, container, false);
-
-        // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
         rv = (RecyclerView) vv.findViewById(R.id.recycler_view);
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
@@ -97,7 +89,7 @@ public class ArticleFragment extends Fragment {
         mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,1,getActivity().getApplicationContext());
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
-        FillList();
+        FillList();//fetch data
 
         rv.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity().getApplicationContext(), rv ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -129,13 +121,8 @@ public class ArticleFragment extends Fragment {
                     }
                 })
         );
-
-
-
         return vv;
     }
-
-
 
 
     private void FillList() {
@@ -157,8 +144,6 @@ public class ArticleFragment extends Fragment {
                         for(DocumentSnapshot q :task.getResult()){
                             Article m =q.toObject(Article.class);
                             m.setId(q.getId());
-
-                            //Movie m = new Movie(q.getString("name"),q.getString("favActor"), MovieGenre.Romance);//MovieGenre.map(q.getString("Genre"))
                             articleList.add(m);
                            // Log.d("Data",m.getName()+"       test here    " + m.getGenre()+"   "+m.getFavActor());
 
@@ -175,12 +160,5 @@ public class ArticleFragment extends Fragment {
             }
         });
 
-    }
-
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

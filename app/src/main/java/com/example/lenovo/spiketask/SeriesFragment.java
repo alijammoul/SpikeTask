@@ -34,8 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SeriesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     ArrayList<Movie> list=new ArrayList<>();
@@ -54,7 +53,7 @@ public class SeriesFragment extends Fragment {
     FirebaseUser user;
 
 
-    private OnFragmentInteractionListener mListener;
+
 
     public SeriesFragment() {
         // Required empty public constructor
@@ -89,7 +88,7 @@ public class SeriesFragment extends Fragment {
 
         vv = inflater.inflate(R.layout.fragment_series, container, false);
 
-        // lv = inflater.inflate(R.layout.activity_check, container, false).findViewById(R.id.list);
+
         rv = (RecyclerView) vv.findViewById(R.id.recycler_view);
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
@@ -134,9 +133,6 @@ public class SeriesFragment extends Fragment {
 
 
 
-
-
-
         return vv;
     }
 
@@ -165,9 +161,7 @@ public class SeriesFragment extends Fragment {
                             Series m =q.toObject(Series.class);
                             m.setId(q.getId());
 
-                            //Movie m = new Movie(q.getString("name"),q.getString("favActor"), MovieGenre.Romance);//MovieGenre.map(q.getString("Genre"))
-                            seriesList.add(m);
-                           // Log.d("Data",m.getName()+"       test here    " + m.getGenre()+"   "+m.getFavActor());
+                             seriesList.add(m);
 
                         }
                         mAdapter.notifyDataSetChanged();
@@ -184,8 +178,5 @@ public class SeriesFragment extends Fragment {
 
 
     }
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

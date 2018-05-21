@@ -22,6 +22,7 @@ public enum MovieGenre {
             case "Action": return MovieGenre.Action;
             case "Drama": return MovieGenre.Drama;
             case "Animation": return MovieGenre.Animation;
+            case "Thriller": return MovieGenre.Thriller;
         }
         return null;
     }
