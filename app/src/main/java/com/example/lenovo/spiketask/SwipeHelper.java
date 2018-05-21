@@ -8,10 +8,12 @@ import android.view.View;
 
 public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerItemTouchHelperListener listener;
+    private String type;
 
-    public SwipeHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener) {
+    public SwipeHelper(int dragDirs, int swipeDirs, RecyclerItemTouchHelperListener listener,String type) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
+        this.type=type;
     }
 
     @Override
@@ -21,10 +23,32 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+         View foregroundView=null;
         if (viewHolder != null) {
-          //  final View foregroundView = ((MAdapter.MyViewHolder) viewHolder).viewForeground;
+            switch (type){
+                case "Movie":
+                     foregroundView = ((MAdapter.ViewHolder0) viewHolder).viewForeground;
+                    break;
+                case "Book":
+                    foregroundView = ((MAdapter.ViewHolder2) viewHolder).viewForeground;
+                    break;
+                case "Music":
+                    foregroundView = ((MAdapter.ViewHolder3) viewHolder).viewForeground;
+                    break;
+                case "Series":
+                    foregroundView = ((MAdapter.ViewHolder4) viewHolder).viewForeground;
+                    break;
+                case "Article":
+                    foregroundView = ((MAdapter.ViewHolder1) viewHolder).viewForeground;
+                    break;
+            }
 
-           // getDefaultUIUtil().onSelected(foregroundView);
+
+
+
+
+
+           getDefaultUIUtil().onSelected(foregroundView);
         }
     }
 
@@ -32,25 +56,85 @@ public class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-       // final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
-      //  getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
-            //    actionState, isCurrentlyActive);
+         View foregroundView =null;
+        switch (type){
+            case "Movie":
+                foregroundView = ((MAdapter.ViewHolder0) viewHolder).viewForeground;
+                break;
+            case "Book":
+                foregroundView = ((MAdapter.ViewHolder2) viewHolder).viewForeground;
+                break;
+            case "Music":
+                foregroundView = ((MAdapter.ViewHolder3) viewHolder).viewForeground;
+                break;
+            case "Series":
+                foregroundView = ((MAdapter.ViewHolder4) viewHolder).viewForeground;
+                break;
+            case "Article":
+                foregroundView = ((MAdapter.ViewHolder1) viewHolder).viewForeground;
+                break;
+        }
+
+
+
+
+
+
+        getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
+               actionState, isCurrentlyActive);
     }
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        //final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
-      //  getDefaultUIUtil().clearView(foregroundView);
+
+
+
+        View foregroundView =null;
+        switch (type){
+            case "Movie":
+                foregroundView = ((MAdapter.ViewHolder0) viewHolder).viewForeground;
+                break;
+            case "Book":
+                foregroundView = ((MAdapter.ViewHolder2) viewHolder).viewForeground;
+                break;
+            case "Music":
+                foregroundView = ((MAdapter.ViewHolder3) viewHolder).viewForeground;
+                break;
+            case "Series":
+                foregroundView = ((MAdapter.ViewHolder4) viewHolder).viewForeground;
+                break;
+            case "Article":
+                foregroundView = ((MAdapter.ViewHolder1) viewHolder).viewForeground;
+                break;
+        }
+       getDefaultUIUtil().clearView(foregroundView);
     }
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView,
                             RecyclerView.ViewHolder viewHolder, float dX, float dY,
                             int actionState, boolean isCurrentlyActive) {
-       // final View foregroundView = ((CartListAdapter.MyViewHolder) viewHolder).viewForeground;
+        View foregroundView =null;
+        switch (type){
+            case "Movie":
+                foregroundView = ((MAdapter.ViewHolder0) viewHolder).viewForeground;
+                break;
+            case "Book":
+                foregroundView = ((MAdapter.ViewHolder2) viewHolder).viewForeground;
+                break;
+            case "Music":
+                foregroundView = ((MAdapter.ViewHolder3) viewHolder).viewForeground;
+                break;
+            case "Series":
+                foregroundView = ((MAdapter.ViewHolder4) viewHolder).viewForeground;
+                break;
+            case "Article":
+                foregroundView = ((MAdapter.ViewHolder1) viewHolder).viewForeground;
+                break;
+        }
 
-       // getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
-          //      actionState, isCurrentlyActive);
+        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
+                actionState, isCurrentlyActive);
     }
 
     @Override

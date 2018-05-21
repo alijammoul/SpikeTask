@@ -91,7 +91,7 @@ public class BookFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
 
-        mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,2);
+        mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,2,getActivity().getApplicationContext());
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
 

@@ -65,7 +65,11 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
     private RecyclerView recyclerView;
     private MAdapter mAdapter;
     private String type;
-    private final String movieurl="https://api.myjson.com/bins/9z2uq",bookurl="https://api.myjson.com/bins/170un6",musicurl="https://api.myjson.com/bins/1dowma",seriesurl="https://api.myjson.com/bins/1evrtu",articleurl="https://api.myjson.com/bins/9qpxe";
+    private final String movieurl="https://api.myjson.com/bins/9z2uq",
+            bookurl="https://api.myjson.com/bins/170un6",
+            musicurl="https://api.myjson.com/bins/1dowma",
+            seriesurl="https://api.myjson.com/bins/1evrtu",
+            articleurl="https://api.myjson.com/bins/9qpxe";
 
     private FirebaseFirestore fs;
     private FirebaseAuth fba;
@@ -98,7 +102,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
         check();//check what model to retrieve
 //-----------------------------------------------------------------------------------------------------------------------------------
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new SwipeHelper(0, ItemTouchHelper.LEFT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new SwipeHelper(0, ItemTouchHelper.LEFT, this,type);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
@@ -108,7 +112,7 @@ public class HomeActivity extends AppCompatActivity implements SwipeHelper.Recyc
 
     }
     public void initm(List a,List b,List c, List d,List e,int n){
-        mAdapter = new MAdapter(a,b,c,d,e,n);
+        mAdapter = new MAdapter(a,b,c,d,e,n,getApplicationContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

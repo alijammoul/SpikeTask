@@ -77,7 +77,7 @@ public class MovieFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
 
-         mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,0);
+         mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,0,getActivity().getApplicationContext());
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
 

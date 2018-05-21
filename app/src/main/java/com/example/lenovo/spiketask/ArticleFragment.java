@@ -92,7 +92,7 @@ public class ArticleFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
 
-        mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,1);
+        mAdapter = new MAdapter(list,bookList,seriesList,articleList,musicList,1,getActivity().getApplicationContext());
         rv.setAdapter(mAdapter);
         rv.setItemAnimator(new DefaultItemAnimator());
 
